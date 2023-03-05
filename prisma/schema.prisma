@@ -1,0 +1,26 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model users {
+  id        Int     @id @default(autoincrement())
+  userId    Int     @unique
+  username  String? @unique
+  fullname  String?
+  role      String  @default("user")
+  messages  messages[]
+}
+
+model messages {
+  id        Int     @id @default(autoincrement())
+  messageId Int     @unique
+  text      String?
+  user      users    @relation(fields: [userId], references: [userId])
+  chatId    Int
+  userId    Int
+}
